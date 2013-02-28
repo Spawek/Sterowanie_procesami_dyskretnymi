@@ -1,0 +1,6 @@
+D:\maciek\pwr-nauka\semestr_6\Sterowanie_procesami_dyskretnymi\Lab1_RPQ\Lab1_RPQ\bin\Debug\Lab1_RPQ.exe.config
+D:\maciek\pwr-nauka\semestr_6\Sterowanie_procesami_dyskretnymi\Lab1_RPQ\Lab1_RPQ\obj\Debug\Lab1_RPQ.csprojResolveAssemblyReference.cache
+D:\maciek\pwr-nauka\semestr_6\Sterowanie_procesami_dyskretnymi\Lab1_RPQ\Lab1_RPQ\bin\Debug\Lab1_RPQ.exe
+D:\maciek\pwr-nauka\semestr_6\Sterowanie_procesami_dyskretnymi\Lab1_RPQ\Lab1_RPQ\bin\Debug\Lab1_RPQ.pdb
+D:\maciek\pwr-nauka\semestr_6\Sterowanie_procesami_dyskretnymi\Lab1_RPQ\Lab1_RPQ\obj\Debug\Lab1_RPQ.exe
+D:\maciek\pwr-nauka\semestr_6\Sterowanie_procesami_dyskretnymi\Lab1_RPQ\Lab1_RPQ\obj\Debug\Lab1_RPQ.pdb
