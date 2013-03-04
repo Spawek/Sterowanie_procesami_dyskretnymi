@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
+// task avitable at: http://dominik.zelazny.staff.iiar.pwr.wroc.pl/pliki/zad1/Zadanie_1.pdf
+
 namespace Lab1_RPQ
 {
     public struct RPQ
@@ -82,7 +84,7 @@ namespace Lab1_RPQ
         public void SortToHaveLowRAtStartAndLowQAtEnd()
         {
             var sortedByR = data.OrderBy(x => x.R).ToList();
-            var sortedBQ = data.OrderBy(x => x.Q).ToList();
+            var sortedByQ = data.OrderBy(x => x.Q).ToList();
 
             LinkedList<RPQ> outputBeg = new LinkedList<RPQ>();
             LinkedList<RPQ> outputEnd = new LinkedList<RPQ>();
@@ -90,7 +92,7 @@ namespace Lab1_RPQ
             int i = 0, j = 0;
             while (outputBeg.Count + outputEnd.Count < data.Count)
             {
-                while (i < data.Count && outputBeg.Contains(sortedByR[i]) && outputEnd.Contains(sortedByR[i]))
+                while (outputBeg.Contains(sortedByR[i]) || outputEnd.Contains(sortedByR[i])) //find 1st elem from R sorted list wchich is not at output list
                 {
                     i++;
                 }
@@ -99,13 +101,13 @@ namespace Lab1_RPQ
                     outputBeg.AddLast(sortedByR[i]);
                 }
 
-                while (j < data.Count && outputBeg.Contains(sortedBQ[j]) && outputEnd.Contains(sortedBQ[j]))
+                while (outputBeg.Contains(sortedByQ[j]) || outputEnd.Contains(sortedByQ[j])) //find 1st elem from Q sorted list wchich is not at output list
                 {
                     j++;
                 }
                 if (j < data.Count)
                 {
-                    outputEnd.AddFirst(sortedBQ[j]);
+                    outputEnd.AddFirst(sortedByQ[j]);
                 }
             }
 
@@ -114,6 +116,8 @@ namespace Lab1_RPQ
 
         public int CalcCMax()
         {
+            CheckPermutationCorectness();
+
             int t = 0;
             int CMax = 0;
             foreach (RPQ item in data)
@@ -152,6 +156,38 @@ namespace Lab1_RPQ
             }
         }
 
+        public void SavePermutationToFile(string fileName)
+        {
+            using (StreamWriter sw = new StreamWriter(fileName))
+            {
+                foreach (var item in data)
+                {
+                    sw.Write(item.number + "\t");
+                }
+            }
+        }
+
+        public void CheckPermutationCorectness()
+        {
+            List<int> occurances = new List<int>();
+            for (int i = 0; i < data.Count; i++)
+            {
+                occurances.Add(0);
+            }
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                occurances[data[i].number-1]++;
+            }
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                if (occurances[i] != 1)
+                {
+                    throw new ApplicationException("wrong permutation!");
+                }
+            }
+        }
 
     }
 
@@ -159,13 +195,15 @@ namespace Lab1_RPQ
     {
         static void Main(string[] args)
         {
+            string fileName = "rpq_100.txt";
+
             RPQOptimization opt1 = new RPQOptimization();
-            opt1.LoadData("rpq_100.txt");
+            opt1.LoadData(fileName);
 
             Console.WriteLine("Start val: " + opt1.CalcCMax());
 
-            opt1.TryToRandomlyImproveResoultBySwapping2Elements((int)Math.Pow(10, 6));
-            Console.WriteLine("After 10^6 random swaps to improve: " + opt1.CalcCMax());
+            opt1.TryToRandomlyImproveResoultBySwapping2Elements((int)Math.Pow(10, 5));
+            Console.WriteLine("After 10^5 random swaps to improve: " + opt1.CalcCMax());
 
             opt1.SortByR();
             Console.WriteLine("Sorted by R: " + opt1.CalcCMax());
@@ -182,8 +220,12 @@ namespace Lab1_RPQ
             opt1.SortToHaveLowRAtStartAndLowQAtEnd();
             Console.WriteLine("Spawek sort oO: " + opt1.CalcCMax());
 
-            opt1.TryToRandomlyImproveResoultBySwapping2Elements((int)Math.Pow(10,6));
-            Console.WriteLine("After 10^6 random swaps to improve: " + opt1.CalcCMax());
+            opt1.TryToRandomlyImproveResoultBySwapping2Elements((int)Math.Pow(10,5));
+            Console.WriteLine("After 10^5 random swaps to improve: " + opt1.CalcCMax());
+
+            string outputFileName = fileName.Replace("rpq", "out");
+            opt1.SavePermutationToFile(outputFileName);
+            Console.WriteLine("Last data set has been saved to file: {0}", outputFileName);
 
             Console.ReadKey();
         }
